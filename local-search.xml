@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>动漫名台词收录</title>
+    <link href="/hexo-blog-fluid/2021/09/30/FamousWords/"/>
+    <url>/hexo-blog-fluid/2021/09/30/FamousWords/</url>
+    
+    <content type="html"><![CDATA[<h1 id="游戏王"><a href="#游戏王" class="headerlink" title="游戏王"></a>游戏王</h1><h2 id="凯撒亮"><a href="#凯撒亮" class="headerlink" title="凯撒亮"></a>凯撒亮</h2><p>因为之前也入坑过游戏王决斗链接国际服，也就组过月光、不知火、电子龙三套牌组，电子龙是我退坑前最后组的卡组，因此也有着特殊的感情。不久前听闻电子龙被彻底削废了，直接入土为安，心情也是五味杂陈，还能继续挣扎吗？</p><div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="https://cdn.jsdelivr.net/gh/2017zhangyuxuan/picture_backend@master//img/202109301523396.jpg" alt="img"></div><div class="group-image-wrap"><img src="https://cdn.jsdelivr.net/gh/2017zhangyuxuan/picture_backend@master//img/202109301531454.jpg" alt="img"></div></div></div><p><a href="https://www.bilibili.com/video/BV12b4y1C7wC">【日语每日一句】凯撒亮经典台词教学</a></p><p>Ko re ga, i ki no ku ru ta me no, o re no a ga ki da !</p><img src="https://cdn.jsdelivr.net/gh/2017zhangyuxuan/picture_backend@master//img/202109301537861.png" width="50%" height="50%" align="middle" ><p>你又是如何呢，你又是为了什么而奋战至今？只要为了达到理想的终点，就算是卑微的挣扎又如何，这就是我所选择的道路！！</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hexo + Fluid主题博客搭建（小白向）</title>
+    <link href="/hexo-blog-fluid/2021/09/28/construct-hexo-blog/"/>
+    <url>/hexo-blog-fluid/2021/09/28/construct-hexo-blog/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://hexo.fluid-dev.com/posts/fluid-write/">搭配 Fluid 如何优雅的写一篇文章</a></p><p><a href="https://www.cnblogs.com/mfrank/p/12829882.html">Hexo博客部署Github Pages</a></p><p><a href="https://blog.csdn.net/i_do_not_know_you/article/details/105594269">绑定域名的遇到坑</a></p><p><a href="https://evenweiss.github.io/2021-08-02-blog-building/#%E4%B8%80%E3%80%81Github-Pages-%E4%BB%8B%E7%BB%8D%E5%8F%8A%E9%85%8D%E7%BD%AE">博客搭建教程</a></p><p>绑定阿里云的top域名，解析成功的问题是：访问速度变得巨慢，并且页面效果很差，图片几乎展示不出来；和vercel部署出来的效果一致（是不是存在什么共性？）；</p><p>当删除阿里云域名解析相关记录后，访问2017zhangyuxuan.github.io 依然会跳转到注册的域名上kingofdark.top，然后报错HTTP 502</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/hexo-blog-fluid/2021/09/25/hello-world/"/>
+    <url>/hexo-blog-fluid/2021/09/25/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p><h3 id="取消评论时显示浏览器内核与操作系统信息"><a href="#取消评论时显示浏览器内核与操作系统信息" class="headerlink" title="取消评论时显示浏览器内核与操作系统信息"></a>取消评论时显示浏览器内核与操作系统信息</h3><p>hexo-theme-fluid/source/css/main.styl 路径下添加 (不过好像只有本地预览有效，部署到Github pages上依然不生效；在Vercel部署的，同样也已经生效了)</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.vmeta</span> &#123;<br>  <span class="hljs-attribute">display</span>:none;<br>&#125;<br></code></pre></td></tr></table></figure><p>更好的做法是在服务端配置DISABLE_USERAGENT 环境变量为true；重新部署后得到新的server url，一定要记得把这个server url填写到_config.fluid.yml文件中，更新！！ 着了踩了个大坑！！<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="细心很重要">[2]</span></a></sup></p><h3 id="Typora图床配置"><a href="#Typora图床配置" class="headerlink" title="Typora图床配置"></a>Typora图床配置</h3><p><a href="https://zhuanlan.zhihu.com/p/365829157"><strong>Typora+PicGo+Github = Markdown编辑器+图床</strong></a><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="牛啊">[1]</span></a></sup></p><section class="footnotes"><h2>备注/参考</h2><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>牛啊<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>细心很重要<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
+    
+    
+    <categories>
+      
+      <category>C1</category>
+      
+      <category>C2</category>
+      
+      <category>C3</category>
+      
+      <category>C4</category>
+      
+      <category>C5</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>新的</tag>
+      
+      <tag>旧的</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
