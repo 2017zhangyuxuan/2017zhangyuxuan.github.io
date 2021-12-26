@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>我的最佳日志实践</title>
+    <link href="/2021/12/25/2021-12-25%20%E6%88%91%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%A5%E5%BF%97%E5%AE%9E%E8%B7%B5/"/>
+    <url>/2021/12/25/2021-12-25%20%E6%88%91%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%A5%E5%BF%97%E5%AE%9E%E8%B7%B5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1><blockquote><p>本文译自：<a href="https://tuhrig.de/my-logging-best-practices/">https://tuhrig.de/my-logging-best-practices/</a></p></blockquote><p>如果你是一名后端开发者，那么日志就相当于你的应用的窗口。不像前端，除了日志消息外没有太多别的东西。接下来将介绍一些我个人写日志时的指导思想。</p><h1 id="log-after-not-before"><a class="markdownIt-Anchor" href="#log-after-not-before"></a> Log After, not before</h1><p>回想以下以前，每艘船都会有一本航海日志，就像日记一样，记录着每天发生的重要事情。就像一本传统的航海日志，我们应该记录已经发生的事情，而不是我们将要做的事情。</p><p>举一个简单的例子：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// don&#x27;t do that</span><br>log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&quot;Making request to REST API&quot;</span>)<br>restClient.<span class="hljs-built_in">makeRequest</span>()<br> <br><span class="hljs-comment">// do that</span><br>restClient.<span class="hljs-built_in">makeRequest</span>()<br>log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&quot;Made request to REST API&quot;</span>)<br></code></pre></td></tr></table></figure><p>第一个 log 声明并没有给出太多信息。当读到它的时候，你并不知道REST调用是否成功。而为了知道是否调用成功，你必须寻找是否存在异常。当你读到这条log，但是却没有找到相应的 exception 异常，你将会困惑一整天。</p><blockquote><p>这里感觉没太翻译明白，可以对照原文看：The first log statement doesn’t tell much. When reading it, you will not know if the REST call was successful or not. To do so you must look for the absence of an exception. And if you read this log but miss the subsequent exception you will be confused for the rest of the day (trust me).</p></blockquote><p>第二个 log 方式则好了许多。它清楚地表明了刚刚的操作成功了。如果REST调用失败了，你将看不到这条 log，而是会有一个 exception。</p><p>我将对所有 <strong>INFO</strong> 日志遵守这条规则，然后对于 <strong>DEBUG</strong> 来说会生成 exceptions。</p><h1 id="separate-parameters-and-messages"><a class="markdownIt-Anchor" href="#separate-parameters-and-messages"></a> Separate parameters and messages</h1><p>一个典型的 log 小心包含两种类型的数据，一种是手写的消息，来声明接下来的消息内容。另一种类型数据则是一系列包含在之前操作中的参数。你应该区分这两部分。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// don&#x27;t do that</span><br>restClient.<span class="hljs-built_in">makeRequest</span>()<br>log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&quot;Made request to &#123;&#125; on REST API.&quot;</span>, url)<br> <br><span class="hljs-comment">// do that</span><br>restClient.<span class="hljs-built_in">makeRequest</span>()<br>log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&quot;Made request to REST API. [url=&#123;&#125;]&quot;</span>, url)<br></code></pre></td></tr></table></figure><p>第一种 log 消息有一些缺点。它是难以解析的，比如他对于 Grok pattern</p><p>来说。所以在我们的日志工具中，自动抽取 IDs 或者其他参数就会变得更困难。并且它也是难以阅读的。想象一下，一个非常长的 URL 在末端带有一系列参数。该条 log 消息的一半就超过了你的屏幕。同时，这个 log 也是难以扩展的。如果你想添加另一个参数（比如使用的 HTTP 方法）你就必须重写整个句子。</p><p>第二个版本就没有以上的缺点。它是非常容易解析的，因为它有清晰的结构。你在句子的前部分就能看到整个句子的内容。并且也十分容易扩展，只需要在列表里添加另一个参数。</p><h1 id="distinguish-between-warning-and-error"><a class="markdownIt-Anchor" href="#distinguish-between-warning-and-error"></a> Distinguish between WARNING and ERROR</h1><p>显然，有多种级别的 log 是有它存在的原因的，你应该适当地使用它们。在 <strong>WARNING</strong> 和 <strong>ERROR</strong> 之间存在明显的区别。</p><p>如果你做一些操作并且切实生效了，但是依然存在一些问题，这就是 WARNING。当如果你做了一些操作，它并没有生效，那就是一个 ERROR。</p><p>再来看一个例子：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">try</span> &#123;<br>    restClient.<span class="hljs-built_in">makeRequest</span>()<br>    log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&quot;Made request to REST API. [url=&#123;&#125;]&quot;</span>, url)<br>&#125; <span class="hljs-built_in"><span class="hljs-keyword">catch</span></span>(e: UnauthorizedException) &#123;<br>    log.<span class="hljs-built_in">warn</span>(<span class="hljs-string">&quot;Request to REST API was rejected because user is unauthorized. [url=&#123;&#125;, result=&#123;&#125;]&quot;</span>, url, result)<br>&#125; <span class="hljs-built_in"><span class="hljs-keyword">catch</span></span>(e: Exception) &#123;<br>    log.<span class="hljs-built_in">error</span>(<span class="hljs-string">&quot;Request to REST API failed. [url=&#123;&#125;, exception=&#123;&#125;]&quot;</span>, url, exception)<br>&#125;<br></code></pre></td></tr></table></figure><p>这个 REST 调用可能有三种输出情况：</p><ul><li>它可以正常工作。那就会有一个 INFO 输出。</li><li>当它失败了，遇到了一个预期外的异常，那就是一个 ERROR。</li><li>当它导致了一些预期内的异常，那就是 WARNING。</li></ul><p>所以在 WARNING 的例子中，你做了一些事情，但你没有完美地做好。而在 ERROR 中，你并没有做事情。</p><p>另外注意，一个 WARNING（当然 ERROR 也是）是一个调用动作。如果没有人需要对此做出反应或者要做些什么，那么你也就不必去 log 输出 WARNING。</p><h1 id="info-is-for-business-debug-for-technology"><a class="markdownIt-Anchor" href="#info-is-for-business-debug-for-technology"></a> INFO is for business, DEBUG for technology</h1><p>INFO 日志应该看起来像一本书，它告诉你发生了什么，而不是如何发生的。这意味着 INFO 更适合于业务逻辑消息，相比于技术细节来说。技术相关的消息应该使用 DEBUG。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">INFO  | User registered <span class="hljs-keyword">for</span> newsletter. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br>INFO  | Newsletter send to user. [user=<span class="hljs-string">&quot;Thomas&quot;</span>]<br>INFO  | User unsubscribed from newsletter. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br></code></pre></td></tr></table></figure><p>上面 INFO 类型的日志，从我们业务逻辑的视角告诉你发生了什么。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">DEBUG | Saved user to newsletter list. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br>DEBUG | Send welcome mail. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br>INFO  | User registered <span class="hljs-keyword">for</span> newsletter. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br>DEBUG | Started cron job to send newsletter of the day. [subscribers=24332]<br>INFO  | Newsletter send to user. [user=<span class="hljs-string">&quot;Thomas&quot;</span>]<br>INFO  | User unsubscribed from newsletter. [user=<span class="hljs-string">&quot;Thomas&quot;</span>, email=<span class="hljs-string">&quot;thomas@tuhrig.de&quot;</span>]<br></code></pre></td></tr></table></figure><p>每个业务用例都会导致一条 INFO 日志输出。此外，会有 DEBUG 日志来给出更多细节信息，来描述处理过程。</p><h1 id="much-more"><a class="markdownIt-Anchor" href="#much-more"></a> Much more</h1><p>当然，对于好的日志来说还有许多值得做的。你还需要考虑 tracing, log aggregation and metrics 。但当提及如何书写时，我非常推荐上面的规则。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>计算机知识</category>
+      
+      <category>编程技巧</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日志</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>位运算的“奇淫技巧”</title>
     <link href="/2021/12/18/2021-12-18%20%E4%BB%8B%E7%BB%8D%E4%BD%8D%E8%BF%90%E7%AE%97/"/>
     <url>/2021/12/18/2021-12-18%20%E4%BB%8B%E7%BB%8D%E4%BD%8D%E8%BF%90%E7%AE%97/</url>
@@ -73,9 +100,9 @@
       
       <category>计算机知识</category>
       
-      <category>比特币</category>
-      
       <category>密码学</category>
+      
+      <category>比特币</category>
       
     </categories>
     
