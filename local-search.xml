@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>【骚操作】制作一个炫酷的Github个人主页</title>
+    <link href="/2023/11/19/2023-11/%E3%80%90%E9%AA%9A%E6%93%8D%E4%BD%9C%E3%80%91%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%AB%E9%85%B7%E7%9A%84Github%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/"/>
+    <url>/2023/11/19/2023-11/%E3%80%90%E9%AA%9A%E6%93%8D%E4%BD%9C%E3%80%91%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%AB%E9%85%B7%E7%9A%84Github%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/</url>
+    
+    <content type="html"><![CDATA[<p>参考页：<a href="https://github.com/LHRUN/bubble">https://github.com/LHRUN/bubble</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>骚操作系列</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Github</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C++简单线程池</title>
+    <link href="/2023/11/17/2023-11/C++%E7%AE%80%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+    <url>/2023/11/17/2023-11/C++%E7%AE%80%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="条件变量"><a class="markdownIt-Anchor" href="#条件变量"></a> 条件变量</h1><p>参考文章：<a href="https://zhuanlan.zhihu.com/p/599172163">https://zhuanlan.zhihu.com/p/599172163</a></p><h2 id="wait函数使用"><a class="markdownIt-Anchor" href="#wait函数使用"></a> wait函数使用</h2><p>下面这段代码来自 <a href="https://en.cppreference.com/w/cpp/thread/condition_variable/wait">https://en.cppreference.com/w/cpp/thread/condition_variable/wait</a></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;chrono&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;condition_variable&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;thread&gt;</span></span><br><br>std::condition_variable cv;<br>std::mutex cv_m;    <span class="hljs-comment">// This mutex is used for three purposes:</span><br>                    <span class="hljs-comment">// 1) to synchronize accesses to i</span><br>                    <span class="hljs-comment">// 2) to synchronize accesses to std::cerr</span><br>                    <span class="hljs-comment">// 3) for the condition variable cv</span><br><span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">waits</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">std::unique_lock&lt;std::mutex&gt; <span class="hljs-title">lk</span><span class="hljs-params">(cv_m)</span></span>;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;num:&quot;</span> &lt;&lt; num &lt;&lt; <span class="hljs-string">&quot; Waiting...\n&quot;</span>;<br>    cv.<span class="hljs-built_in">wait</span>(lk, []&#123; <span class="hljs-keyword">return</span> i == <span class="hljs-number">1</span>; &#125;);<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;num:&quot;</span> &lt;&lt; num &lt;&lt; <span class="hljs-string">&quot; ...finished waiting. i == 1\n&quot;</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">signals</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">seconds</span>(<span class="hljs-number">1</span>));<br>    &#123;<br>        <span class="hljs-function">std::lock_guard&lt;std::mutex&gt; <span class="hljs-title">lk</span><span class="hljs-params">(cv_m)</span></span>;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;Notifying...\n&quot;</span>;<br>    &#125;<br>    cv.<span class="hljs-built_in">notify_all</span>();<br><br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">seconds</span>(<span class="hljs-number">1</span>));<br><br>    &#123;<br>        <span class="hljs-function">std::lock_guard&lt;std::mutex&gt; <span class="hljs-title">lk</span><span class="hljs-params">(cv_m)</span></span>;<br>        i = <span class="hljs-number">1</span>;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;Notifying again...\n&quot;</span>;<br>    &#125;<br>    cv.<span class="hljs-built_in">notify_all</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">std::thread <span class="hljs-title">t1</span><span class="hljs-params">(waits, <span class="hljs-number">1</span>)</span>, <span class="hljs-title">t2</span><span class="hljs-params">(waits, <span class="hljs-number">2</span>)</span>, <span class="hljs-title">t3</span><span class="hljs-params">(waits, <span class="hljs-number">3</span>)</span>, <span class="hljs-title">t4</span><span class="hljs-params">(signals)</span></span>;<br>    t1.<span class="hljs-built_in">join</span>();<br>    t2.<span class="hljs-built_in">join</span>();<br>    t3.<span class="hljs-built_in">join</span>();<br>    t4.<span class="hljs-built_in">join</span>();<br>&#125;<br></code></pre></td></tr></table></figure><p>一组可能的输出为：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">num:3 Waiting...<br>num:1 Waiting...<br>num:2 Waiting...<br>Notifying...<br>Notifying again...<br>num:3 ...finished waiting. i == 1<br>num:2 ...finished waiting. i == 1<br>num:1 ...finished waiting. i == 1<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>秋招浅谈</title>
     <link href="/2023/10/17/2023-10/%E7%A7%8B%E6%8B%9B%E6%B5%85%E8%B0%88/"/>
     <url>/2023/10/17/2023-10/%E7%A7%8B%E6%8B%9B%E6%B5%85%E8%B0%88/</url>
@@ -13,9 +51,7 @@
     
     <categories>
       
-      <category>生活</category>
-      
-      <category>随笔</category>
+      <category>秋招</category>
       
     </categories>
     
